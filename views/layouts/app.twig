@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+		<title>
+			{% block title %}{% endblock %}
+			- SiFo Akademik
+		</title>
+		<!-- preloading style and scripts -->
+
+		<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="preload" as="style"/>
+		<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" as="style"/>
+		<link
+		rel="preload" href="assets/css/style.css" as="style"/>
+
+		<!-- Tailwind CSS -->
+		<link
+		href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
+		<!-- font-awesome -->
+		<link
+		rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+		<!-- system styles -->
+		<link rel="stylesheet" href="assets/css/style.css"/>
+	</head>
+	<body>
+		<header class="mb-16">
+			<nav class="bg-gray-600 textw-white">
+				<div class="container flex flex-wrap items-center mx-auto justify-between">
+					<a href="#" class="inline-block font-bold text-lg text-white">SiFo Akademik</a>
+					<ul class="flex flex-wrap ml-8 text-white">
+						<li>
+							<a href="/" class="block py-2 px-4">Dasbor</a>
+						</li>
+						<li>
+							<a href="{{ url_for('faculty.index') }}" class="block py-2 px-4">Fakultas</a>
+						</li>
+						<li>
+							<a href="{{ url_for('department.index') }}" class="block py-2 px-4">Jurusan</a>
+						</li>
+						<li>
+							<a href="{{ url_for('class.index') }}" class="block py-2 px-4">Kelas</a>
+						</li>
+						<li>
+							<a href="#" class="block py-2 px-4">Dasbor</a>
+						</li>
+						<li>
+							<a href="#" class="block py-2 px-4">Dasbor</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<div class="bg-gray-200 border-b-2">
+				<div class="container mx-auto">
+					<div class="py-8"> {% block header %}{% endblock %}
+						</div>
+					</div>
+				</div>
+			</header>
+			{% block content %}{% endblock %}
+			<footer class="text-center text-gray-700 mt-8 pb-8">
+				Copyright &copy; 2020. Sifo Akademik
+			</footer>
+			<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.3.5/dist/alpine.min.js" defer></script>
+			{% block footer_scripts %}{% endblock %}
+		</body>
+	</html>

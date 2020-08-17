@@ -1,0 +1,78 @@
+{% extends "layouts/app.twig" %}
+
+{% block title %}Tambah Kelas
+{% endblock %}
+
+{% block header %}
+	<h1 class="text-3xl font-bold text-gray-800">Tambah Kelas</h1>
+{% endblock %}
+
+{% block content %}
+	<section class="container mx-auto">
+		<form action="{{ url_for('class.store') }}" method="POST">
+			{% include "partials/flash-message.twig" %}
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Fakultas</label>
+				<select id="faculty_code" name="faculty_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<option value>-- Pilih Fakultas</option>
+					{% set faculty_code = "" %}
+					{% for faculties in data %}
+
+						{% for department in faculties %}
+
+							{% if department.faculty_code != faculty_code %}
+								<option value="{{ department.faculty_code }}" {{ department.faculty_code == old('faculty_code') ? ' selected' : '' }}>{{ department.faculty_name }}</option>
+							{% endif %}
+
+							{% set faculty_code = department.faculty_code %}
+
+						{% endfor %}
+
+					{% endfor %}
+				</select>
+			</div>
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Jurusan</label>
+				<select id="department_code" name="department_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<option value>-- Pilih Jurusan</option>
+				</select>
+			</div>
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Nama Kelas</label>
+				<input type="text" name="name" placeholder="Nama Kelas" value="{{ old('name') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+			</div>
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Semester</label>
+				<input type="text" name="semester" placeholder="Semester Kelas" value="{{ old('semester') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+				</div>
+			<div>
+				<button class="focus:outline-none bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Tambah Kelas</button>
+			</div>
+		</form>
+	</section>
+{% endblock %}
+
+{% block footer_scripts %}
+	<script>
+		var faculties = {{ data|json_encode()|raw }};
+		var facultyCode = document.getElementById('faculty_code');
+		var departmentCode = document.getElementById('department_code');
+		var event = new Event('change');
+		var selected = '';
+
+		facultyCode.addEventListener('change', function (ev) {
+		selected = ev.target.value;
+		if (selected !== '') {
+		if (typeof faculties[selected] !== 'undefined') {
+				var optionItems = '<option value>-- Pilih Jurusan</option>';
+		faculties[selected].forEach(function (val) {
+				
+		optionItems += `<option value="${val.department_code}">${val.department_name}</option>`;
+		});
+		departmentCode.innerHTML = optionItems;
+		}
+		}
+		});
+		facultyCode.dispatchEvent(event);
+	</script>
+{% endblock %}

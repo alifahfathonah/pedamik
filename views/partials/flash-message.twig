@@ -1,0 +1,11 @@
+{% if flash_message is not null %}
+	<div class="w-full mb-4 bg-{{ alertType(flash_message['type']) }}-200 text-{{ alertType(flash_message['type']) }}-800 py-2 px-4 rounded text-sm leading-normal">
+		<strong>
+			{{ flash_message['title'] }}
+		</strong>
+
+		{% for message in flash_message['message'] %}
+			<div>{{ message }}</div>
+		{% endfor %}
+	</div>
+{% endif %}

@@ -1,0 +1,37 @@
+{% extends "layouts/app.twig" %}
+
+{% block title %}Ubah Jurusan
+{% endblock %}
+
+{% block header %}
+	<h1 class="text-3xl font-bold text-gray-800">Ubah Jurusan</h1>
+{% endblock %}
+
+{% block content %}
+	<section class="container mx-auto">
+		<form action="{{ url_for('department.update', {'id': department.department_code}) }}" method="POST">
+			{% include "partials/flash-message.twig" %}
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Fakultas</label>
+				<select name="faculty_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<option>-- Pilih Fakultas</option>
+					{% for faculty in faculties %}
+						<option value="{{ faculty.faculty_code }}" {{ faculty.faculty_code == old('faculty_code')|default(department.faculty_code) ? ' selected' : '' }}>{{ faculty.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Kode Jurusan</label>
+				<input type="text" name="department_code" placeholder="Kode Jurusan" value="{{ old('department_code')|default(department.department_code) }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+			</div>
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Nama Jurusan</label>
+				<input type="text" name="name" placeholder="Nama Jurusan" value="{{ old('name')|default(department.name) }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+			</div>
+			<div>
+				<button class="focus:outline-none bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Ubah Jurusan</button>
+				<a href="{{ url_for('department.index') }}" class="inline-block ml-4 text-gray-700 hover:underline">Kembali</a>
+			</div>
+		</form>
+	</section>
+{% endblock %}

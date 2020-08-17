@@ -1,0 +1,28 @@
+{% extends "layouts/app.twig" %}
+
+{% block title %}Ubah Fakultas
+{% endblock %}
+
+{% block header %}
+	<h1 class="text-3xl font-bold text-gray-800">Ubah Fakultas</h1>
+{% endblock %}
+
+{% block content %}
+	<section class="container mx-auto">
+		<form action="{{ url_for('faculty.update', {'id': faculty.faculty_code}) }}" method="POST">
+			{% include "partials/flash-message.twig" %}
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Kode Fakultas</label>
+				<input type="text" name="faculty_code" placeholder="Kode Fakultas" value="{{ old('faculty_code')|default(faculty.faculty_code) }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+			</div>
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Nama Fakultas</label>
+				<input type="text" name="name" placeholder="Nama Fakultas" value="{{ old('name')|default(faculty.name) }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+			</div>
+			<div>
+				<button class="focus:outline-none bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Simpan Fakultas</button>
+				<a href="{{ url_for('faculty.index') }}" class="inline-block ml-4 text-gray-700 hover:underline">Kembali</a>
+			</div>
+		</form>
+	</section>
+{% endblock %}

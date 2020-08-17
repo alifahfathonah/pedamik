@@ -1,0 +1,30 @@
+{% extends "layouts/app.twig" %}
+
+{% block title %}Masuk Akun
+{% endblock %}
+
+{% block header %}
+	<h1 class="text-3xl font-bold text-gray-800 text-center">Sistem Informasi Akademik</h1>
+{% endblock %}
+
+{% block content %}
+	<section>
+		<div class="container mx-auto flex flex-wrap justify-center items-center">
+			<form action="{{ url_for('login') }}" method="POST" class="max-w-sm w-full shadow-md rounded-md bg-white py-8 px-12 border" autocomplete="off">
+				<h3 class="font-bold text-gray-700 text-2xl text-center mb-8">Masuk Akun</h3>
+				<div class="mb-4">
+					<label class="font-bold text-sm text-gray-700 block mb-2">Nama Pengguna</label>
+					<input type="text" name="username" placeholder="Nama Pengguna" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+				</div>
+				<div class="mb-4">
+					<label class="font-bold text-sm text-gray-700 block mb-2">Kata Sandi</label>
+					<input type="password" name="password" placeholder="kata Sandi" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+				</div>
+				{% include "partials/flash-message.twig" %}
+				<div>
+					<button class="focus:outline-none bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Masuk</button>
+				</div>
+			</form>
+		</div>
+	</section>
+{% endblock %}

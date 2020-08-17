@@ -1,0 +1,33 @@
+{
+    "name": "nacademy",
+    "version": "1.0.0",
+    "description": "A slim framework boilerplate with MVC, ready to use for your project",
+    "main": "tailwind.config.js",
+    "directories": {
+        "lib": "lib"
+    },
+    "scripts": {
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/satriaajiputra/nacademy.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/satriaajiputra/nacademy/issues"
+    },
+    "homepage": "https://github.com/satriaajiputra/nacademy#readme",
+    "dependencies": {
+        "tailwindcss": "^1.6.2"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.26.12",
+        "browser-sync-webpack-plugin": "^2.0.1",
+        "cross-env": "^7.0.2",
+        "laravel-mix": "^5.0.4"
+    }
+}
