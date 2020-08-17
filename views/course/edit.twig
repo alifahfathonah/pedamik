@@ -1,0 +1,108 @@
+{% extends "layouts/app.twig" %}
+
+{% block title %}Ubah Mata Kuliah
+{% endblock %}
+
+{% block header %}
+	<h1 class="text-3xl font-bold text-gray-800">Ubah Mata Kuliah</h1>
+{% endblock %}
+
+{% block content %}
+	<section class="container mx-auto">
+		<form action="{{ url_for('course.update', {'id': course.course_code}) }}" method="POST">
+			{% include "partials/flash-message.twig" %}
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Fakultas</label>
+				<select v-model="oldFaculty" id="faculty_code" name="faculty_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<option value>-- Pilih Fakultas</option>
+					<option v-for="(name, val) in faculties" :key="val" :value="val" >{{ '{{  name  }}'}}</option>
+				</select>
+			</div>
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Jurusan</label>
+				<select v-model="oldDepartment" id="department_code" name="department_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<option value>-- Pilih Jurusan</option>
+					<option v-for="(department, idx) in departments" :key="idx" :value="department.department_code">{{ '{{  department.department_name  }}'}}</option>
+				</select>
+			</div>
+			<div class="flex -mx-4">
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Kode Mata Kuliah</label>
+						<input type="text" name="course_code" placeholder="Nama Mata Kuliah" value="{{ old('course_code')|default(course.course_code) }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Nama Mata Kuliah</label>
+						<input type="text" name="name" placeholder="Nama Mata Kuliah" value="{{ old('name')|default(course.name) }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Semester</label>
+						<input type="text" name="semester" placeholder="Semester Mata Kuliah" value="{{ old('semester')|default(course.semester) }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">SKS</label>
+						<input type="text" name="sks" placeholder="Jumlah SKS" value="{{ old('sks')|default(course.sks) }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+			</div>
+			<div>
+				<button class="focus:outline-none bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Ubah Mata Kuliah</button>
+				<a href="{{ url_for('course.index') }}" class="inline-block ml-4 text-gray-700 hover:underline">Kembali</a>
+			</div>
+		</form>
+	</section>
+{% endblock %}
+
+{% block footer_scripts %}
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					rawData: {{ data|json_encode()|raw }},
+					faculties: [],
+					departments: [],
+					oldFaculty: '{{ old('faculty_code')|default(course.faculty_code) }}',
+					oldDepartment: '{{ old('department_code')|default(course.department_code) }}',
+				}
+			},
+			watch: {
+				oldFaculty: function() {
+					this.refreshDepartments();
+				}
+			},
+			computed: {
+				facultyEl: function() {
+					return document.getElementById('faculty_code')
+				},
+				departmentEl: function() {
+					return document.getElementById('department_code')
+				}
+			},
+			methods: {
+				refreshFaculties: function() {
+					var parsedData = {};
+					for(var idx in this.rawData) {
+						parsedData[idx] = this.rawData[idx][0].faculty_name;
+					}
+					this.faculties = parsedData;
+				},
+				refreshDepartments: function() {
+					if(this.oldFaculty == '') return [];
+					if(typeof this.rawData[this.oldFaculty] === undefined) return [];
+					this.departments = this.rawData[this.oldFaculty];
+				}
+			},
+			created: function() {
+				this.refreshFaculties();
+				this.refreshDepartments();
+			}
+		});
+	</script>
+{% endblock %}

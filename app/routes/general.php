@@ -27,3 +27,19 @@ $app->post('/class', '\App\Controllers\ClassController:store')->setName('class.s
 $app->post('/class/{id}', '\App\Controllers\ClassController:update')->setName('class.update');
 $app->post('/class/{id}/destroy', '\App\Controllers\ClassController:destroy')->setName('class.destroy');
 $app->get('/class/create', '\App\Controllers\ClassController:create')->setName('class.create');
+
+/** Course */
+$app->get('/course', '\App\Controllers\CourseController:index')->setName('course.index');
+$app->get('/course/{id}/edit', '\App\Controllers\CourseController:edit')->setName('course.edit');
+$app->post('/course', '\App\Controllers\CourseController:store')->setName('course.store');
+$app->post('/course/{id}', '\App\Controllers\CourseController:update')->setName('course.update');
+$app->post('/course/{id}/destroy', '\App\Controllers\CourseController:destroy')->setName('course.destroy');
+$app->get('/course/create', '\App\Controllers\CourseController:create')->setName('course.create');
+
+/** Student */
+$app->get('/student', '\App\Controllers\StudentController:index')->setName('student.index');
+$app->get('/student/{id}/edit', '\App\Controllers\StudentController:edit')->setName('student.edit');
+$app->post('/student', '\App\Controllers\StudentController:store')->setName('student.store');
+$app->post('/student/{id}', '\App\Controllers\StudentController:update')->setName('student.update');
+$app->post('/student/{id}/destroy', '\App\Controllers\StudentController:destroy')->setName('student.destroy');
+$app->get('/student/create', '\App\Controllers\StudentController:create')->setName('student.create');

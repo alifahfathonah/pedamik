@@ -1,0 +1,140 @@
+{% extends "layouts/app.twig" %}
+
+{% block title %}Tambah Mahasiswa
+{% endblock %}
+
+{% block header %}
+	<h1 class="text-3xl font-bold text-gray-800">Tambah Mahasiswa</h1>
+{% endblock %}
+
+{% block content %}
+	<section class="container mx-auto">
+		<form action="{{ url_for('student.store') }}" method="POST">
+			{% include "partials/flash-message.twig" %}
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Fakultas</label>
+				<select v-model="oldFaculty" id="faculty_code" name="faculty_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<option value>-- Pilih Fakultas</option>
+					<option v-for="(name, val) in faculties" :key="val" :value="val" >{{ '{{  name  }}'}}</option>
+				</select>
+			</div>
+			<div class="mb-4">
+				<label class="font-bold text-sm text-gray-700 block mb-2">Jurusan</label>
+				<select v-model="oldDepartment" id="department_code" name="department_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<option value>-- Pilih Jurusan</option>
+					<option v-for="(department, idx) in departments" :key="idx" :value="department.department_code">{{ '{{  department.department_name  }}'}}</option>
+				</select>
+			</div>
+			<div class="flex flex-wrap -mx-4">
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">NIM</label>
+						<input type="text" name="nim" placeholder="Nama Mahasiswa" value="{{ old('nim') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Nama Mahasiswa</label>
+						<input type="text" name="name" placeholder="Nama Mahasiswa" value="{{ old('name') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">No. Telp</label>
+						<input type="text" name="phone_number" placeholder="Nomor Telepon" value="{{ old('phone_number') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Jenis Kelamin</label>
+						<select name="gender" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+							<option value="L">Laki-Laki</option>
+							<option value="P">Perempuan</option>
+						</select>
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Tempat Lahir</label>
+						<input type="text" name="birth_place" placeholder="Tempat Lahir" value="{{ old('birth_place') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Tanggal Lahir</label>
+						<input type="date" name="birth_date" placeholder="Tanggal Lahir" value="{{ old('birth_date') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Jenjang</label>
+						<select name="degree" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+							<option value="D3">D3</option>
+							<option value="D4">D4</option>
+							<option value="S1">S1</option>
+							<option value="S2">S2</option>
+						</select>
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Alamat</label>
+						<textarea name="address" placeholder="Alamat Lengkap" value="{{ old('address') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none" rows="3"></textarea>
+					</div>
+				</div>
+			</div>
+			<div>
+				<button class="focus:outline-none bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Tambah Mahasiswa</button>
+				<a href="{{ url_for('student.index') }}" class="inline-block ml-4 text-gray-700 hover:underline">Kembali</a>
+			</div>
+		</form>
+	</section>
+{% endblock %}
+
+{% block footer_scripts %}
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					rawData: {{ data|json_encode()|raw }},
+					faculties: [],
+					departments: [],
+					oldFaculty: '{{ old('faculty_code') }}',
+					oldDepartment: '{{ old('department_code') }}',
+				}
+			},
+			watch: {
+				oldFaculty: function() {
+					this.refreshDepartments();
+				}
+			},
+			computed: {
+				facultyEl: function() {
+					return document.getElementById('faculty_code')
+				},
+				departmentEl: function() {
+					return document.getElementById('department_code')
+				}
+			},
+			methods: {
+				refreshFaculties: function() {
+					var parsedData = {};
+					for(var idx in this.rawData) {
+						parsedData[idx] = this.rawData[idx][0].faculty_name;
+					}
+					this.faculties = parsedData;
+				},
+				refreshDepartments: function() {
+					if(this.oldFaculty == '') return [];
+					if(typeof this.rawData[this.oldFaculty] === undefined) return [];
+					this.departments = this.rawData[this.oldFaculty];
+				}
+			},
+			created: function() {
+				this.refreshFaculties();
+				this.refreshDepartments();
+			}
+		});
+	</script>
+{% endblock %}
