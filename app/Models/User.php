@@ -15,7 +15,7 @@ class User
         $this->con = $con;
     }
 
-    public function findUserBy($column, $value, $count = false)
+    public function findBy($column, $value, $count = false)
     {
         try {
             $stmt = $this->con->prepare("SELECT * FROM users WHERE $column = ?");
@@ -29,6 +29,44 @@ class User
             if (count($res) === 1) $res = $res[0];
 
             return $res;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function updatePassword($password, $id)
+    {
+        try {
+            $stmt = $this->con->prepare("UPDATE users SET password = ? WHERE id = ?");
+            $stmt->bindValue(1, $password);
+            $stmt->bindValue(2, $id);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function update($body, $id)
+    {
+        try {
+            $stmt = $this->con->prepare("UPDATE users SET email = ?, username = ? WHERE id = ?");
+            $stmt->bindValue(1, $body['email']);
+            $stmt->bindValue(2, $body['username']);
+            $stmt->bindValue(3, $id);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $stmt = $this->con->prepare("DELETE FROM users WHERE id = ?");
+            $stmt->bindValue(1, $id);
+            return $stmt->execute();
         } catch (PDOException $e) {
             die($e->getMessage());
         }

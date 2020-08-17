@@ -68,7 +68,9 @@ $container->set('db', function ($container) {
 
     try {
         $settings = $container->get('settings.database');
-        $info = sprintf("%s:host=%s;dbname=%s;charset=%s", $settings['driver'], $settings['host'], $settings['database'], $settings['charset']);
+        $info = sprintf("%s:host=%s;dbname=%s;charset=%s", $settings['driver'], $settings['host'], $settings['database'], $settings['charset'], [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
 
         $con = new PDO(
             $info,

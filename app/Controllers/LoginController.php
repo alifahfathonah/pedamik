@@ -35,7 +35,7 @@ class LoginController extends Controller
             return $this->redirect($response, route('login'));
         }
 
-        $user = $this->user->findUserBy('username', $body['username']);
+        $user = $this->user->findBy('username', $body['username']);
 
         if (!$user) {
             $this->flashMessage('Error!', 'warning', ['Nama Pengguna tidak ditemukan']);

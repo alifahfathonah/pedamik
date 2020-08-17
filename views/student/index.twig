@@ -1,42 +1,40 @@
 {% extends "layouts/app.twig" %}
 
-{% block title %}Daftar Mata Kuliah
+{% block title %}Daftar Mahasiswa
 {% endblock %}
 
 {% block header %}
-	<h1 class="text-3xl font-bold text-gray-800">Daftar Mata Kuliah</h1>
+	<h1 class="text-3xl font-bold text-gray-800">Daftar Mahasiswa</h1>
 {% endblock %}
 
 {% block content %}
 	<section class="container mx-auto text-gray-700">
 		{% include "partials/flash-message.twig" %}
-		<a href="{{ url_for('course.create') }}" class="focus:outline-none inline-block bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 mb-4">Tambah Mata Kuliah</a>
+		<a href="{{ url_for('student.create') }}" class="focus:outline-none inline-block bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 mb-4">Tambah Mahasiswa</a>
 		<div class="overflow-x-auto">
 			<table class="w-full text-left border border-gray-400">
 				<thead class="border-b-2 border-gray-400">
-					<th width="120" class="px-2 py-1">Kode</th>
-					<th class="px-2 py-1">Mata Kuliah</th>
+					<th width="120" class="px-2 py-1">NIM</th>
+					<th class="px-2 py-1">Nama</th>
 					<th class="px-2 py-1">Fakultas</th>
 					<th class="px-2 py-1">Jurusan</th>
-					<th class="px-2 py-1">Semester</th>
-					<th class="px-2 py-1">SKS</th>
+					<th class="px-2 py-1">Jenjang</th>
 					<th>Aksi</th>
 				</thead>
 				<tbody>
-					{% for course in courses %}
+					{% for student in students %}
 						<tr>
-						<td class="px-2 py-1 border-b border-gray-400">{{ course.course_code }}</td>
-							<td class="px-2 py-1 border-b border-gray-400">{{ course.name }}</td>
-							<td class="px-2 py-1 border-b border-gray-400">{{ course.faculty_name }}</td>
-							<td class="px-2 py-1 border-b border-gray-400">{{ course.
+						<td class="px-2 py-1 border-b border-gray-400">{{ student.nim }}</td>
+							<td class="px-2 py-1 border-b border-gray-400">{{ student.name }}</td>
+							<td class="px-2 py-1 border-b border-gray-400">{{ student.faculty_name }}</td>
+							<td class="px-2 py-1 border-b border-gray-400">{{ student.
 							department_name }}</td>
-							<td class="px-2 py-1 border-b border-gray-400">{{ course.semester }}</td>
-							<td class="px-2 py-1 border-b border-gray-400">{{ course.sks }}</td>
+							<td class="px-2 py-1 border-b border-gray-400">{{ student.degree }}</td>
 							<td class="px-2 py-1 border-b border-gray-400">
-								<a href="{{ url_for('course.edit', {'id': course.course_code}) }}" title="Ubah">
+								<a href="{{ url_for('student.edit', {'id': student.id}) }}" title="Ubah">
 									<i class="fa fa-pencil"></i>
 								</a>
-								<form class="inline-block ml-2 text-red-600" action="{{ url_for('course.destroy', {'id': course.course_code}) }}" onclick="return confirm('Yakin mau menghapus? Data akan terhapus permanen')" method="POST">
+								<form class="inline-block ml-2 text-red-600" action="{{ url_for('student.destroy', {'id': student.id}) }}" onclick="return confirm('Yakin mau menghapus? Data akan terhapus permanen')" method="POST">
 									<button title="Hapus">
 										<i class="fa fa-trash"></i>
 									</button>

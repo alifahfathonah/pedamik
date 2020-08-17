@@ -8,6 +8,7 @@ use App\Models\Faculty;
 use Slim\Psr7\Response;
 use App\Models\Department;
 use App\Models\MClass;
+use App\Models\Student;
 use Psr\Container\ContainerInterface;
 
 class StudentController extends Controller
@@ -19,12 +20,13 @@ class StudentController extends Controller
         parent::__construct($container);
         $this->department = new Department($this->db);
         $this->course = new Course($this->db);
+        $this->student = new Student($this->db);
     }
 
     public function index(Request $request, Response $response, $args)
     {
-        $courses = $this->course->get();
-        return $this->view->render($response, 'course/index.twig', compact('courses'));
+        $students = $this->student->get();
+        return $this->view->render($response, 'student/index.twig', compact('students'));
     }
 
     public function create(Request $request, Response $response, $args)
@@ -48,8 +50,9 @@ class StudentController extends Controller
             $data[$department->faculty_code][] = $department;
         }
 
-        $course = $this->course->findBy('C.course_code', $args['id']);
-        return $this->view->render($response, 'course/edit.twig', compact('course', 'data'));
+        $student = $this->student->findBy('S.id', $args['id']);
+
+        return $this->view->render($response, 'student/edit.twig', compact('student', 'data'));
     }
 
     public function store(Request $request, Response $response, $args)
@@ -58,11 +61,14 @@ class StudentController extends Controller
 
         $errors = [];
         if (trim(empty($body['department_code']))) $errors[] = 'Kode Jurusan tidak boleh kosong';
-        if (trim(empty($body['faculty_code']))) $errors[] = 'Fakultas tidak boleh kosong';
-        if (trim(empty($body['semester']))) $errors[] = 'Semester tidak boleh kosong';
-        if (trim(empty($body['name']))) $errors[] = 'Nama Kelas tidak boleh kosong';
-        if (trim(empty($body['sks']))) $errors[] = 'SKS tidak boleh kosong';
-        if (trim(empty($body['course_code']))) $errors[] = 'Kode Mata Kuliah tidak boleh kosong';
+        if (trim(empty($body['name']))) $errors[] = 'Nama tidak boleh kosong';
+        if (trim(empty($body['nim']))) $errors[] = 'NIM tidak boleh kosong';
+        if (trim(empty($body['phone_number']))) $errors[] = 'Nomor Telepon tidak boleh kosong';
+        if (trim(empty($body['gender']))) $errors[] = 'jenis Kelamin tidak boleh kosong';
+        if (trim(empty($body['birth_place']))) $errors[] = 'Tempat Lahir tidak boleh kosong';
+        if (trim(empty($body['birth_date']))) $errors[] = 'Tanggal Lahir tidak boleh kosong';
+        if (trim(empty($body['degree']))) $errors[] = 'Jenjang tidak boleh kosong';
+        if (trim(empty($body['address']))) $errors[] = 'Alamat tidak boleh kosong';
 
         if (count($errors) > 0) {
             $this->flashMessage('Error!', 'warning', $errors);
@@ -70,24 +76,24 @@ class StudentController extends Controller
             // input history
             $this->c->get('flash')->addMessage('input', $body);
 
-            return $this->redirect($response, route('course.create'));
+            return $this->redirect($response, route('student.create'));
         }
 
-        $course = $this->course->findBy('course_code', $body['course_code'], true);
+        $student = $this->student->findBy('nim', $body['nim'], true);
 
-        if ($course) {
-            $this->flashMessage('Error!', 'warning', ['Kode Mata Kuliah sudah digunakan']);
+        if ($student) {
+            $this->flashMessage('Error!', 'warning', ['NIM sudah digunakan']);
 
             // input history
             $this->c->get('flash')->addMessage('input', $body);
 
-            return $this->redirect($response, route('course.create'));
+            return $this->redirect($response, route('student.create'));
         }
 
-        $this->course->insert($body);
+        $this->student->insert($body);
 
-        $this->flashMessage('Sukses!', 'success', ['Berhasil menambahkan Mata Kuliah baru']);
-        return $this->redirect($response, route('course.index'));
+        $this->flashMessage('Sukses!', 'success', ['Berhasil menambahkan Mahasiswa baru']);
+        return $this->redirect($response, route('student.index'));
     }
 
     public function update(Request $request, Response $response, $args)
@@ -95,9 +101,14 @@ class StudentController extends Controller
         $body = $request->getParsedBody();
         $errors = [];
         if (trim(empty($body['department_code']))) $errors[] = 'Kode Jurusan tidak boleh kosong';
-        if (trim(empty($body['faculty_code']))) $errors[] = 'Fakultas tidak boleh kosong';
-        if (trim(empty($body['semester']))) $errors[] = 'Semester tidak boleh kosong';
-        if (trim(empty($body['name']))) $errors[] = 'Nama Kelas tidak boleh kosong';
+        if (trim(empty($body['name']))) $errors[] = 'Nama tidak boleh kosong';
+        if (trim(empty($body['nim']))) $errors[] = 'NIM tidak boleh kosong';
+        if (trim(empty($body['phone_number']))) $errors[] = 'Nomor Telepon tidak boleh kosong';
+        if (trim(empty($body['gender']))) $errors[] = 'jenis Kelamin tidak boleh kosong';
+        if (trim(empty($body['birth_place']))) $errors[] = 'Tempat Lahir tidak boleh kosong';
+        if (trim(empty($body['birth_date']))) $errors[] = 'Tanggal Lahir tidak boleh kosong';
+        if (trim(empty($body['degree']))) $errors[] = 'Jenjang tidak boleh kosong';
+        if (trim(empty($body['address']))) $errors[] = 'Alamat tidak boleh kosong';
 
         if (count($errors) > 0) {
             $this->flashMessage('Error!', 'warning', $errors);
@@ -105,38 +116,38 @@ class StudentController extends Controller
             // input history
             $this->c->get('flash')->addMessage('input', $body);
 
-            return $this->redirect($response, route('class.edit', ['id' => $args['id']]));
+            return $this->redirect($response, route('student.edit', ['id' => $args['id']]));
         }
 
-        $course = $this->course->findBy('course_code', $body['course_code']);
+        $student = $this->student->findBy('S.nim', $body['nim']);
 
-        if ($course) {
-            if ($course->course_code !== $args['id']) {
-                $this->flashMessage('Error!', 'warning', ['Kode Mata Kuliah sudah digunakan']);
+        if ($student) {
+            if ($student->id !== $args['id']) {
+                $this->flashMessage('Error!', 'warning', ['NIM sudah digunakan']);
 
                 // input history
                 $this->c->get('flash')->addMessage('input', $body);
 
-                return $this->redirect($response, route('course.edit', ['id' => $args['id']]));
+                return $this->redirect($response, route('student.edit', ['id' => $args['id']]));
             }
         }
 
-        $this->course->update($body, $course->course_code ?? $args['id']);
+        $this->student->update($body, $args['id']);
 
-        $this->flashMessage('Sukses!', 'success', ['Berhasil menyimpan Mata Kuliah']);
-        return $this->redirect($response, route('course.edit', ['id' => $body['course_code']]));
+        $this->flashMessage('Sukses!', 'success', ['Berhasil menyimpan Mahasiswa']);
+        return $this->redirect($response, route('student.edit', ['id' => $args['id']]));
     }
 
 
     public function destroy(Request $request, Response $response, $args)
     {
-        $course = $this->course->findBy('C.course_code', $args['id']);
+        $student = $this->student->findBy('S.id', $args['id']);
 
-        if (!$course) return $this->redirect($response, route('course.index'));
+        if (!$student) return $this->redirect($response, route('student.index'));
 
-        $this->course->delete($args['id']);
+        $this->student->delete($args['id']);
 
-        $this->flashMessage('Sukses!', 'success', ['Berhasil menghapus mata Kuliah']);
-        return $this->redirect($response, route('course.index'));
+        $this->flashMessage('Sukses!', 'success', ['Berhasil menghapus mahasiswa']);
+        return $this->redirect($response, route('student.index'));
     }
 }
