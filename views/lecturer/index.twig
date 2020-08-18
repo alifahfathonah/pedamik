@@ -1,0 +1,47 @@
+{% extends "layouts/app.twig" %}
+
+{% block title %}Daftar Dosen
+{% endblock %}
+
+{% block header %}
+	<h1 class="text-3xl font-bold text-gray-800">Daftar Dosen</h1>
+{% endblock %}
+
+{% block content %}
+	<section class="container mx-auto text-gray-700">
+		{% include "partials/flash-message.twig" %}
+		<a href="{{ url_for('lecturer.create') }}" class="focus:outline-none inline-block bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 mb-4">Tambah Dosen</a>
+		<div class="overflow-x-auto">
+			<table class="w-full text-left border border-gray-400">
+				<thead class="border-b-2 border-gray-400">
+					<th width="120" class="px-2 py-1">NIDN</th>
+					<th class="px-2 py-1">Nama</th>
+					<th class="px-2 py-1">No. Telp</th>
+					<th class="px-2 py-1">Tgl. Lahir</th>
+					<th>Aksi</th>
+				</thead>
+				<tbody>
+					{% for lecturer in lecturers %}
+						<tr>
+						<td class="px-2 py-1 border-b border-gray-400">{{ lecturer.nidn }}</td>
+							<td class="px-2 py-1 border-b border-gray-400">{{ lecturer.name }}</td>
+							<td class="px-2 py-1 border-b border-gray-400">{{ lecturer.phone_number }}</td>
+							<td class="px-2 py-1 border-b border-gray-400">{{ lecturer.
+							birth_date }}</td>
+							<td class="px-2 py-1 border-b border-gray-400">
+								<a href="{{ url_for('lecturer.edit', {'id': lecturer.id}) }}" title="Ubah">
+									<i class="fa fa-pencil"></i>
+								</a>
+								<form class="inline-block ml-2 text-red-600" action="{{ url_for('lecturer.destroy', {'id': lecturer.id}) }}" onclick="return confirm('Yakin mau menghapus? Data akan terhapus permanen')" method="POST">
+									<button title="Hapus">
+										<i class="fa fa-trash"></i>
+									</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</section>
+{% endblock %}

@@ -43,3 +43,11 @@ $app->post('/student', '\App\Controllers\StudentController:store')->setName('stu
 $app->post('/student/{id}', '\App\Controllers\StudentController:update')->setName('student.update');
 $app->post('/student/{id}/destroy', '\App\Controllers\StudentController:destroy')->setName('student.destroy');
 $app->get('/student/create', '\App\Controllers\StudentController:create')->setName('student.create');
+
+/** Lecturer */
+$app->get('/lecturer', '\App\Controllers\LecturerController:index')->setName('lecturer.index');
+$app->get('/lecturer/{id}/edit', '\App\Controllers\LecturerController:edit')->setName('lecturer.edit');
+$app->post('/lecturer', '\App\Controllers\LecturerController:store')->setName('lecturer.store');
+$app->post('/lecturer/{id}', '\App\Controllers\LecturerController:update')->setName('lecturer.update');
+$app->post('/lecturer/{id}/destroy', '\App\Controllers\LecturerController:destroy')->setName('lecturer.destroy');
+$app->get('/lecturer/create', '\App\Controllers\LecturerController:create')->setName('lecturer.create');

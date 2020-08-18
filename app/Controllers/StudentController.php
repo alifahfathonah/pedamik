@@ -2,24 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Models\Course;
 use Slim\Psr7\Request;
-use App\Models\Faculty;
 use Slim\Psr7\Response;
 use App\Models\Department;
-use App\Models\MClass;
 use App\Models\Student;
 use Psr\Container\ContainerInterface;
 
 class StudentController extends Controller
 {
-    protected $department, $course;
+    protected $department, $student;
 
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
         $this->department = new Department($this->db);
-        $this->course = new Course($this->db);
         $this->student = new Student($this->db);
     }
 
