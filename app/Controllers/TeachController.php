@@ -101,6 +101,6 @@ class TeachController extends Controller
 
         $this->flashMessage('Sukses!', 'success', ['Berhasil menghapus kelas']);
 
-        return $this->redirect($response, route('lecturer.teach', ['id' => $args['id']]));
+        return $this->redirect($response, route('lecturer.teach', ['id' => $args['lecturer_id']]));
     }
 }

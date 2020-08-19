@@ -18,7 +18,8 @@ Change ``stdev`` to your project name
 
 ### Install  Dependency
 ```bash
-composer install
+$ composer install
+$ npm install
 ```
 
 ### Configure Database Connection

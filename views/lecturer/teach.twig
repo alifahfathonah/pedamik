@@ -21,7 +21,6 @@
 					<th class="px-2 py-1">Jurusan</th>
 					<th class="px-2 py-1">Hari Ajar</th>
 					<th class="px-2 py-1">Tahun Ajar</th>
-					<th class="px-2 py-1">Jml. Mhs</th>
 					<th class="text-center">Aksi</th>
 				</thead>
 				<tbody>
@@ -34,9 +33,8 @@
 							<td class="px-2 py-1 border-b border-gray-400">{{ teach.department_name }}</td>
 							<td class="px-2 py-1 border-b border-gray-400">{{ teach.day }}</td>
 							<td class="px-2 py-1 border-b border-gray-400">{{ teach.year }}</td>
-							<td class="px-2 py-1 border-b border-gray-400">{{ teach.student_amount }}</td>
 							<td width="100" class="px-2 py-1 border-b border-gray-400 text-xs">
-								<form class="inline-block ml-2 text-red-600" action="{{ url_for('lecturer.teach.destroy', {'id': teach.id}) }}" onclick="return confirm('Yakin mau menghapus? Data akan terhapus permanen')" method="POST">
+								<form class="inline-block ml-2 text-red-600" action="{{ url_for('lecturer.teach.destroy', {'id': teach.id, 'lecturer_id': teach.lecturer_id}) }}" onclick="return confirm('Yakin mau menghapus? Data akan terhapus permanen')" method="POST">
 									<button title="Hapus" class="bg-red-300 py-1 px-2 rounded">
 										<i class="fa fa-trash"></i>
 										Hapus

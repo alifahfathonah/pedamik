@@ -58,7 +58,7 @@ $app->group('', function (RouteCollectorProxy $group) {
         $route->get('/lecturer/{id}/teach', '\App\Controllers\TeachController:index')->setName('lecturer.teach');
         $route->get('/lecturer/{id}/teach/create', '\App\Controllers\TeachController:create')->setName('lecturer.teach.create');
         $route->post('/lecturer/{id}/teach', '\App\Controllers\TeachController:store')->setName('lecturer.teach.store');
-        $route->post('/lecturer/{id}/teach/destroy', '\App\Controllers\TeachController:destroy')->setName('lecturer.teach.destroy');
+        $route->post('/lecturer/{id}/teach/destroy/{lecturer_id}', '\App\Controllers\TeachController:destroy')->setName('lecturer.teach.destroy');
         $route->post('/lecturer', '\App\Controllers\LecturerController:store')->setName('lecturer.store');
         $route->post('/lecturer/{id}', '\App\Controllers\LecturerController:update')->setName('lecturer.update');
         $route->post('/lecturer/{id}/destroy', '\App\Controllers\LecturerController:destroy')->setName('lecturer.destroy');
