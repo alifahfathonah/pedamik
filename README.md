@@ -1,20 +1,14 @@
-# slim-boilerplate
-A slim framework boilerplate with MVC, ready to use for your project
+# Pedamik
+Pengelola Data Akademik
 
-## Features
-1. Slim v4
-2. PHP-DI Container
-3. Eloquent ORM
-4. MVC
-5. Symfony Var Dumper
-6. Dynamic Basepath
-
-## Quick Installation
-```bash
-composer create-project --prefer-dist satmaxt/slim-boilerplate stdev
-```
-
-Change ``stdev`` to your project name
+## Fitur-Fitur
+1. Pengelolaan Data Fakultas
+2. Pengelolaan Data Jurusan
+3. Pengelolaan Data Kelas
+4. Pengelolaan Data Mata Kuliah
+5. Pengelolaan Data Mahasiswa
+6. Pengelolaan Data Dosen
+7. Pengelolaan Data Kelas Dosen
 
 ### Install  Dependency
 ```bash
@@ -27,13 +21,11 @@ Open file ``configs/database.php``
 ```php
 return [
     'driver'    => 'mysql',
-    'host'      => 'localhost',
-    'database'  => 'yourdbname',
-    'username'  => 'yourdbusername',
-    'password'  => 'yourdbpassword',
+    'host'      => 'yourdbname',
+    'database'  => '10118068_Akademik',
+    'username'  => 'root',
+    'password'  => '',
     'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => '',
 ];
 ```
 and change it with your database information
@@ -49,8 +41,3 @@ change the first argument to ``false`` and save it.
 ```bash
 composer install --optimize-autoloader --no-dev
 ```
-
-## License
-This bolerplate is licensed under the MIT license. See [License File](LICENSE) for more information.
-
-Copyright &copy; 2019. Satria Aji Putra
