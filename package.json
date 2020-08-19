@@ -1,5 +1,5 @@
 {
-    "name": "nacademy",
+    "name": "pedamik",
     "version": "1.0.0",
     "description": "A slim framework boilerplate with MVC, ready to use for your project",
     "main": "tailwind.config.js",
@@ -13,20 +13,20 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/satriaajiputra/nacademy.git"
+        "url": "git+https://github.com/satriaajiputra/pedamik.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/satriaajiputra/nacademy/issues"
+        "url": "https://github.com/satriaajiputra/pedamik/issues"
     },
-    "homepage": "https://github.com/satriaajiputra/nacademy#readme",
+    "homepage": "https://github.com/satriaajiputra/pedamik#readme",
     "dependencies": {
-        "tailwindcss": "^1.6.2"
+        "tailwindcss": "^1.7.1"
     },
     "devDependencies": {
         "browser-sync": "^2.26.12",
-        "browser-sync-webpack-plugin": "^2.0.1",
+        "browser-sync-webpack-plugin": "^2.2.2",
         "cross-env": "^7.0.2",
         "laravel-mix": "^5.0.4"
     }
