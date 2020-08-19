@@ -11,6 +11,8 @@ class LoginController extends Controller
 {
     protected $user;
 
+    protected $redirectAfterLogout = 'login';
+
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
@@ -52,5 +54,11 @@ class LoginController extends Controller
         $_SESSION['auth'] = $user;
 
         return $this->redirect($response, route('home'));
+    }
+
+    public function logout(Request $request, Response $response)
+    {
+        unset($_SESSION['auth']);
+        return $this->redirect($response, $this->redirectAfterLogout);
     }
 }

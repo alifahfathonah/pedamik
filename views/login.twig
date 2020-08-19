@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block header %}
-	<h1 class="text-3xl font-bold text-gray-800 text-center">Sistem Informasi Akademik</h1>
+	<h1 class="text-3xl font-bold text-gray-800 text-center">Pengelola Data Akademik</h1>
 {% endblock %}
 
 {% block content %}
@@ -14,11 +14,11 @@
 				<h3 class="font-bold text-gray-700 text-2xl text-center mb-8">Masuk Akun</h3>
 				<div class="mb-4">
 					<label class="font-bold text-sm text-gray-700 block mb-2">Nama Pengguna</label>
-					<input type="text" name="username" placeholder="Nama Pengguna" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<input type="text" name="username" value="admin" placeholder="Nama Pengguna" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
 				</div>
 				<div class="mb-4">
 					<label class="font-bold text-sm text-gray-700 block mb-2">Kata Sandi</label>
-					<input type="password" name="password" placeholder="kata Sandi" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					<input type="password" name="password" value="123" placeholder="kata Sandi" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
 				</div>
 				{% include "partials/flash-message.twig" %}
 				<div>

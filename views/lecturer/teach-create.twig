@@ -1,0 +1,146 @@
+{% extends "layouts/app.twig" %}
+
+{% block title %}Tambah Kelas
+{% endblock %}
+
+{% block header %}
+	<h1 class="text-3xl font-bold text-gray-800">Tambah Kelas</h1>
+{% endblock %}
+
+{% block content %}
+	<section class="container mx-auto">
+		<form action="{{ url_for('lecturer.teach.store', {'id':lecturer.id}) }}" method="POST">
+			{% include "partials/flash-message.twig" %}
+			<div class="flex flex-wrap -mx-4">
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Fakultas</label>
+						<select v-model="oldFaculty" id="faculty_code" name="faculty_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+							<option value>-- Pilih Fakultas</option>
+							<option v-for="(name, val) in faculties" :key="val" :value="val" >{{ '{{  name  }}'}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Jurusan</label>
+						<select v-model="oldDepartment" id="department_code" name="department_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+							<option value>-- Pilih Jurusan</option>
+							<option v-for="(dep, idx) in departments" :key="idx" :value="dep.department.department_code">{{ '{{  dep.department.department_name  }}'}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Kelas</label>
+						<select v-model="oldClass" id="class_id" name="class_id" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+							<option value>-- Pilih Kelas</option>
+							<option v-for="(dclass, idx) in classes" :key="idx" :value="dclass.id">{{ '{{  dclass.name + " - SEMESTER " + dclass.semester  }}'}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Mata Kuliah</label>
+						<select v-model="oldCourse" id="course_code" name="course_code" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+							<option value>-- Pilih Mata Kuliah</option>
+							<option v-for="(course, idx) in courses" :key="idx" :value="course.course_code">{{ '{{  course.name  }}'}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Tahun Ajar</label>
+						<input type="text" name="year" placeholder="Tahun Ajar" value="{{ old('year') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+				<div class="w-6/12 px-4">
+					<div class="mb-4">
+						<label class="font-bold text-sm text-gray-700 block mb-2">Hari Ajar (Senin-Sabtu)</label>
+						<input type="text" name="day" placeholder="Hari Ajar" value="{{ old('day') }}" class="w-full border rounded px-4 py-2 focus:border-gray-600 outline-none">
+					</div>
+				</div>
+			</div>
+			<div>
+				<button class="focus:outline-none bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Tambah Kelas</button>
+				<a href="{{ url_for('lecturer.teach', {'id': lecturer.id}) }}" class="inline-block ml-4 text-gray-700 hover:underline">Kembali</a>
+			</div>
+		</form>
+	</section>
+{% endblock %}
+
+{% block footer_scripts %}
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					rawData: {{ data|json_encode()|raw }},
+					faculties: [],
+					oldFaculty: '{{ old('faculty_code') }}',
+					oldDepartment: '{{ old('department_code') }}',
+					oldClass: '{{ old('class_id') }}',
+					oldCourse: '{{ old('cours_code') }}'
+				}
+			},
+			computed: {
+				facultyEl: function() {
+					return document.getElementById('faculty_code')
+				},
+				departmentEl: function() {
+					return document.getElementById('department_code')
+				},
+
+				departments: function() {
+					if(typeof this.rawData[this.oldFaculty] == 'undefined') return [];
+					return this.rawData[this.oldFaculty];
+				},
+
+				classes: function() {
+					if(typeof this.rawData[this.oldFaculty] == 'undefined') return [];
+
+					if(typeof this.rawData[this.oldFaculty][this.oldDepartment] == 'undefined') return [];
+
+					return this.rawData[this.oldFaculty][this.oldDepartment].class;
+				},
+
+				courses: function() {
+					var _this = this;
+					if(typeof this.rawData[this.oldFaculty] == 'undefined') return [];
+
+					if(typeof this.rawData[this.oldFaculty][this.oldDepartment] == 'undefined') return [];
+
+					if(this.oldClass == '') return [];
+
+					return this.rawData[this.oldFaculty][this.oldDepartment].courses.filter(function(el) {
+						return el.semester === _this.findClass(_this.oldClass)[0].semester;
+					});
+				}
+			},
+			methods: {
+				refreshFaculties: function() {
+					var parsedData = {};
+					for(var idx in this.rawData) {
+						var name = '';
+
+						for(var i in this.rawData[idx]) {
+							name = this.rawData[idx][i].department.faculty_name;
+							break;
+						}
+
+						parsedData[idx] = name;
+					}
+					this.faculties = parsedData;
+				},
+				findClass(id) {
+					return this.classes.filter(function(el) {
+						return el.id == id;
+					});
+				}
+			},
+			created: function() {
+				this.refreshFaculties();
+			}
+		});
+	</script>
+{% endblock %}

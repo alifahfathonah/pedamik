@@ -1,5 +1,6 @@
 <?php
 
+use App\Middleware\RequestMiddleware;
 use DI\Container;
 use Slim\Factory\AppFactory;
 use Selective\BasePath\BasePathMiddleware;
@@ -22,6 +23,8 @@ $app->addRoutingMiddleware();
 // Set the base path to run the app in a subdirectory.
 // This path is used in urlFor().
 $app->add(new BasePathMiddleware($app));
+
+$app->add(new RequestMiddleware($container));
 
 /*
  * 

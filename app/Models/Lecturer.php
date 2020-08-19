@@ -59,7 +59,7 @@ class Lecturer
     {
         try {
             $password = password_hash(date('dmY', strtotime($body['birth_date'])), PASSWORD_DEFAULT);
-            $stmt = $this->con->prepare("INSERT INTO users (email, username, password) VALUES (?,?,?)");
+            $stmt = $this->con->prepare("INSERT INTO users (email, username, password, role) VALUES (?,?,?, 'lecturer')");
             $stmt->bindValue(1, $body['email']);
             $stmt->bindValue(2, $body['nidn']);
             $stmt->bindValue(3, $password);

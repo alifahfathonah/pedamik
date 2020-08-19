@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 		<title>
 			{% block title %}{% endblock %}
-			- SiFo Akademik
+			- Pedaka
 		</title>
 		<!-- preloading style and scripts -->
 
@@ -32,29 +32,40 @@
 			<header class="mb-16">
 				<nav class="bg-gray-600 textw-white">
 					<div class="container flex flex-wrap items-center mx-auto justify-between">
-						<a href="#" class="inline-block font-bold text-lg text-white">SiFo Akademik</a>
+						<a href="#" class="inline-block font-bold text-lg text-white">Pedamik</a>
 						<ul class="flex flex-wrap ml-8 text-white">
 							<li>
-								<a href="/" class="block py-2 px-4">Dasbor</a>
+								<a href="/" class="block py-2 px-4 {{ nav_active(0, '') }}">Dasbor</a>
 							</li>
-							<li>
-								<a href="{{ url_for('faculty.index') }}" class="block py-2 px-4">Fakultas</a>
-							</li>
-							<li>
-								<a href="{{ url_for('department.index') }}" class="block py-2 px-4">Jurusan</a>
-							</li>
-							<li>
-								<a href="{{ url_for('class.index') }}" class="block py-2 px-4">Kelas</a>
-							</li>
-							<li>
-								<a href="{{ url_for('course.index') }}" class="block py-2 px-4">Mata Kuliah</a>
-							</li>
-							<li>
-								<a href="{{ url_for('student.index') }}" class="block py-2 px-4">Mahasiswa</a>
-							</li>
-							<li>
-								<a href="{{ url_for('lecturer.index') }}" class="block py-2 px-4">Dosen</a>
-							</li>
+							{% if user is not null %}
+								{% if user.role == 'admin' %}
+									<li>
+										<a href="{{ url_for('faculty.index') }}" class="block py-2 px-4 {{ nav_active(0, 'faculty') }}">Fakultas</a>
+									</li>
+									<li>
+										<a href="{{ url_for('department.index') }}" class="block py-2 px-4 {{ nav_active(0, 'department') }}">Jurusan</a>
+									</li>
+									<li>
+										<a href="{{ url_for('class.index') }}" class="block py-2 px-4 {{ nav_active(0, 'class') }}">Kelas</a>
+									</li>
+									<li>
+										<a href="{{ url_for('course.index') }}" class="block py-2 px-4 {{ nav_active(0, 'course') }}">Mata Kuliah</a>
+									</li>
+									<li>
+										<a href="{{ url_for('student.index') }}" class="block py-2 px-4 {{ nav_active(0, 'student') }}">Mahasiswa</a>
+									</li>
+									<li>
+										<a href="{{ url_for('lecturer.index') }}" class="block py-2 px-4 {{ nav_active(0, 'lecturer') }}">Dosen</a>
+									</li>
+								{% endif %}
+								<li>
+									<a href="{{ url_for('logout') }}" class="block py-2 px-4 {{ nav_active(0, 'logout') }}">Logout</a>
+								</li>
+								{% else %}
+									<li>
+									<a href="{{ url_for('login') }}" class="block py-2 px-4 {{ nav_active(0, 'login') }}">Login</a>
+								</li>
+							{% endif %}
 						</ul>
 					</div>
 				</nav>

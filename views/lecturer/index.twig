@@ -18,7 +18,7 @@
 					<th class="px-2 py-1">Nama</th>
 					<th class="px-2 py-1">No. Telp</th>
 					<th class="px-2 py-1">Tgl. Lahir</th>
-					<th>Aksi</th>
+					<th class="text-center">Aksi</th>
 				</thead>
 				<tbody>
 					{% for lecturer in lecturers %}
@@ -28,13 +28,17 @@
 							<td class="px-2 py-1 border-b border-gray-400">{{ lecturer.phone_number }}</td>
 							<td class="px-2 py-1 border-b border-gray-400">{{ lecturer.
 							birth_date }}</td>
-							<td class="px-2 py-1 border-b border-gray-400">
-								<a href="{{ url_for('lecturer.edit', {'id': lecturer.id}) }}" title="Ubah">
-									<i class="fa fa-pencil"></i>
+							<td width="250" class="px-2 py-1 border-b border-gray-400 text-xs">
+								<a href="{{ url_for('lecturer.edit', {'id': lecturer.id}) }}" title="Ubah" class="bg-gray-300 py-1 px-2 rounded">
+									<i class="fa fa-pencil"></i> <span>Edit</span>
+								</a>
+								<a href="{{ url_for('lecturer.teach', {'id': lecturer.id}) }}" title="Pilih Kelas" class="text-blue-800 bg-blue-300 ml-2 py-1 px-2 rounded">
+									<i class="fa fa-book"></i> <span>Pilih Kelas</span>
 								</a>
 								<form class="inline-block ml-2 text-red-600" action="{{ url_for('lecturer.destroy', {'id': lecturer.id}) }}" onclick="return confirm('Yakin mau menghapus? Data akan terhapus permanen')" method="POST">
-									<button title="Hapus">
+									<button title="Hapus" class="bg-red-300 py-1 px-2 rounded">
 										<i class="fa fa-trash"></i>
+										Hapus
 									</button>
 								</form>
 							</td>

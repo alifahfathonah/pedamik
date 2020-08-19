@@ -20,6 +20,7 @@ class FacultyController extends Controller
     public function index(Request $request, Response $response, $args)
     {
         $faculties = $this->faculty->get();
+
         return $this->view->render($response, 'faculty/index.twig', compact('faculties'));
     }
 

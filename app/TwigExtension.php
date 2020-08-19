@@ -21,6 +21,7 @@ class TwigExtension extends AbstractExtension implements ExtensionInterface, Glo
     {
         return [
             'flash_message' => $this->getFlashMessage(),
+            'user' => $this->container->get('user'),
         ];
     }
 
@@ -30,12 +31,18 @@ class TwigExtension extends AbstractExtension implements ExtensionInterface, Glo
             new TwigFunction('dd', [$this, 'dieDump']),
             new TwigFunction('alertType', [$this, 'alertType']),
             new TwigFunction('old', [$this, 'old']),
+            new TwigFunction('nav_active', [$this, 'navActive']),
         ];
     }
 
     public function dieDump($thing)
     {
         dd($thing);
+    }
+
+    public function navActive($segment = 0, $likeAs = '', $cls = 'bg-gray-700')
+    {
+        return url_segment($segment) === $likeAs ? $cls : '';
     }
 
     public function alertType($type)

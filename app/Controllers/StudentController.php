@@ -88,7 +88,7 @@ class StudentController extends Controller
 
         $this->student->insert($body);
 
-        $this->flashMessage('Sukses!', 'success', ['Berhasil menambahkan Mahasiswa baru']);
+        $this->flashMessage('Sukses!', 'success', ['Berhasil menambahkan Mahasiswa baru.', 'Nama Pengguna menggunakan NIM', 'Kata sandi default menggunakan tanggal lahir ddmmyyyy']);
         return $this->redirect($response, route('student.index'));
     }
 

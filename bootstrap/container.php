@@ -85,6 +85,10 @@ $container->set('db', function ($container) {
     }
 });
 
+$container->set('user', function () {
+    return $_SESSION['auth'] ?? null;
+});
+
 /*
 |--------------------------------------------------------------------------
 | Settings from database

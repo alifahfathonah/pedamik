@@ -29,7 +29,7 @@
 								<a href="{{ url_for('department.edit', {'id': department.department_code}) }}" title="Ubah">
 									<i class="fa fa-pencil"></i>
 								</a>
-								<form class="inline-block ml-2 text-red-600" action="{{ url_for('department.destroy', {'id': faculty.department_code}) }}" onclick="return confirm('Yakin mau menghapus? Data akan terhapus permanen')" method="POST">
+								<form class="inline-block ml-2 text-red-600" action="{{ url_for('department.destroy', {'id': department.department_code}) }}" onclick="return confirm('Yakin mau menghapus? Data akan terhapus permanen')" method="POST">
 									<button title="Hapus">
 										<i class="fa fa-trash"></i>
 									</button>
